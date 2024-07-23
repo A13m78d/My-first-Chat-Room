@@ -8,7 +8,7 @@
 #define SERVER_IP "127.0.0.1"
 
 #define SERVER_PORT 12345
-#define MAX_CLINTS 5
+#define MAX_CLINTS 10
 
 SOCKET clientSock[MAX_CLINTS] = {0};
 WSADATA wsaData;
