@@ -9,14 +9,15 @@
 
 #define SERVER_PORT 12345
 #define MAX_CLINTS 10
+#define BUFFER_SIZE 100
 
 SOCKET clientSock[MAX_CLINTS] = {0};
 WSADATA wsaData;
 
 void reciving_buffer(SOCKET clientSock, SOCKET sock);
-void sending_massage(SOCKET clientSock, SOCKET sock, char message[100]);
+void sending_massage(SOCKET clientSock, SOCKET sock, char message[BUFFER_SIZE]);
 
-void sending_massage_toAll(SOCKET me, SOCKET sock, char message[100])
+void sending_massage_toAll(SOCKET me, SOCKET sock, char message[BUFFER_SIZE])
 {
 
     for (int i = 0; clientSock[i] != 0; i++)
@@ -25,17 +26,17 @@ void sending_massage_toAll(SOCKET me, SOCKET sock, char message[100])
             continue;
         }
 
-        if (send(clientSock[i], message, 100, 0) == SOCKET_ERROR)
+        if (send(clientSock[i], message, BUFFER_SIZE, 0) == SOCKET_ERROR)
         {
             printf("send failed with error: %d\n", WSAGetLastError());
         }
     }
 }
 
-void sending_massage(SOCKET clientSock, SOCKET sock, char message[100])
+void sending_massage(SOCKET clientSock, SOCKET sock, char message[BUFFER_SIZE])
 {
 
-    if (send(clientSock, message, 100, 0) == SOCKET_ERROR)
+    if (send(clientSock, message, BUFFER_SIZE, 0) == SOCKET_ERROR)
     {
         printf("send failed with error: %d\n", WSAGetLastError());
         closesocket(sock);
@@ -48,9 +49,9 @@ void reciving_buffer(SOCKET clientSock, SOCKET sock)
 {
     while (1)
     {
-        char buffer[100];
-        char to_send[100];
-        if (recv(clientSock, buffer, 100, 0) == SOCKET_ERROR)
+        char buffer[BUFFER_SIZE];
+        char to_send[BUFFER_SIZE];
+        if (recv(clientSock, buffer, BUFFER_SIZE, 0) == SOCKET_ERROR)
         {
             printf("recv failed  with error: %d\n", WSAGetLastError());
             return;
@@ -157,7 +158,7 @@ int main()
 
         printf("Client connected: %s:%d\n", inet_ntoa(clientAddr[i].sin_addr), ntohs(clientAddr[i].sin_port));
 
-        char message[100] = "Hi Lets Chat...";
+        char message[BUFFER_SIZE] = "Hi Lets Chat...";
         thread[i] = std::thread(sending_massage, clientSock[i], sock, message);
     }
 

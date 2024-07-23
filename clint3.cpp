@@ -8,13 +8,15 @@
 
 #define SERVER_IP "127.0.0.1"
 #define SERVER_PORT 12345
+#define BUFFER_SIZE 100
 
 
-void recive_massage(SOCKET sock, char buffer[100])
+
+void recive_massage(SOCKET sock, char buffer[BUFFER_SIZE])
 {
     while (1)
     {
-        if (recv(sock, buffer, 100, 0) == SOCKET_ERROR)
+        if (recv(sock, buffer, BUFFER_SIZE, 0) == SOCKET_ERROR)
         {
             return;
         }
@@ -71,9 +73,9 @@ int main()
         // printf("connect success\n");
     }
 
-    char buffer[100];
+    char buffer[BUFFER_SIZE];
 
-    char massage[100];
+    char massage[BUFFER_SIZE];
     char name[] = ":Ali";
     
     std::thread t;
@@ -81,7 +83,7 @@ int main()
     
     while (1)
     {
-        fgets(massage, 100, stdin);
+        fgets(massage, BUFFER_SIZE, stdin);
         if (massage[strlen(massage) - 1] == '\n')
         {
             massage[strlen(massage) - 1] = '\0';
