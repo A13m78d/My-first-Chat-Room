@@ -113,7 +113,7 @@ int main()
     struct sockaddr_in serverAddr = {0};
 
     serverAddr.sin_family = AF_INET;
-    serverAddr.sin_port = htons(SERVER_PORT);
+    serverAddr.sin_port = htons(SERVER_PORT); // host to network long 
     serverAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
 
     if (bind(sock, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
